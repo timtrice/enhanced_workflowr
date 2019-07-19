@@ -8,6 +8,7 @@ ENV ENV_DIR=$DIR
 
 RUN apt-get update \
   && apt-get -y install --no-install-recommends \
+    zlib1g-dev \
     vim \
   && rm -rf /var/lib/apt/lists/*
 
