@@ -12,7 +12,7 @@
 
 
 
-<title>Home</title>
+<title>Enhanced Workflowr</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -273,9 +273,6 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Home</a>
-</li>
-<li>
   <a href="about.html">About</a>
 </li>
 <li>
@@ -300,14 +297,14 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">Home</h1>
+<h1 class="title toc-ignore">Enhanced Workflowr</h1>
 
 </div>
 
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -316,7 +313,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -328,7 +325,7 @@ div.section {
 <strong>Last updated:</strong> 2019-07-19
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>project/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -344,12 +341,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -416,10 +413,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomtimtriceenhancedworkflowrtree8e02b013e755f2c5eb7537f59fc952fd84a42daatargetblank8e02b01a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/timtrice/enhanced_workflowr/tree/8e02b013e755f2c5eb7537f59fc952fd84a42daa" target="_blank">8e02b01</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomtimtriceenhancedworkflowrtreec7adf07d7018d9fe2ddc859e83eb92bbb792400ctargetblankc7adf07a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/timtrice/enhanced_workflowr/tree/c7adf07d7018d9fe2ddc859e83eb92bbb792400c" target="_blank">c7adf07</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomtimtriceenhancedworkflowrtree8e02b013e755f2c5eb7537f59fc952fd84a42daatargetblank8e02b01a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomtimtriceenhancedworkflowrtreec7adf07d7018d9fe2ddc859e83eb92bbb792400ctargetblankc7adf07a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -428,6 +425,18 @@ Great! You are using Git for version control. Tracking code development and conn
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+
+Untracked files:
+    Untracked:  .binder/
+    Untracked:  .travis.yml
+    Untracked:  README.Rmd
+    Untracked:  code/01_setup.R
+
+Unstaged changes:
+    Modified:   DESCRIPTION
+    Modified:   README.md
+    Modified:   analysis/_site.yml
+    Modified:   analysis/index.Rmd
 
 </code></pre>
 <p>
@@ -466,6 +475,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/timtrice/enhanced_workflowr/c7adf07d7018d9fe2ddc859e83eb92bbb792400c/docs/index.html" target="_blank">c7adf07</a>
+</td>
+<td>
+Tim Trice
+</td>
+<td>
+2019-07-19
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -524,48 +550,8 @@ Start workflowr project.
 </div>
 </div>
 </div>
-<pre class="r"><code>library(ggplot2)</code></pre>
-<pre class="r"><code>ggplot(data = mtcars) + 
-  aes(x = mpg, y = hp) + 
-  geom_point()</code></pre>
-<p><img src="figure/index.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
-Past versions of unnamed-chunk-1-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-1-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/timtrice/enhanced_workflowr/blob/8e02b013e755f2c5eb7537f59fc952fd84a42daa/docs/figure/index.Rmd/unnamed-chunk-1-1.png" target="_blank">8e02b01</a>
-</td>
-<td>
-Tim Trice
-</td>
-<td>
-2019-07-19
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<div id="na" class="section level2">
+<h2>NA</h2>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -591,19 +577,15 @@ locale:
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
-other attached packages:
-[1] ggplot2_3.2.0
-
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.1       knitr_1.23       whisker_0.3-2    magrittr_1.5    
- [5] workflowr_1.4.0  munsell_0.5.0    colorspace_1.4-1 rlang_0.4.0     
- [9] stringr_1.4.0    tools_3.6.0      grid_3.6.0       gtable_0.3.0    
-[13] xfun_0.8         withr_2.1.2      git2r_0.26.1     htmltools_0.3.6 
-[17] yaml_2.2.0       lazyeval_0.2.2   rprojroot_1.3-2  digest_0.6.20   
-[21] tibble_2.1.3     crayon_1.3.4     fs_1.3.1         glue_1.3.1      
-[25] evaluate_0.14    rmarkdown_1.14   labeling_0.3     stringi_1.4.3   
-[29] pillar_1.4.2     compiler_3.6.0   scales_1.0.0     backports_1.1.4 
-[33] pkgconfig_2.0.2 </code></pre>
+ [1] workflowr_1.4.0  Rcpp_1.0.1       crayon_1.3.4     assertthat_0.2.1
+ [5] digest_0.6.20    rprojroot_1.3-2  R6_2.4.0         backports_1.1.4 
+ [9] git2r_0.26.1     magrittr_1.5     evaluate_0.14    stringi_1.4.3   
+[13] rstudioapi_0.10  fs_1.3.1         whisker_0.3-2    rmarkdown_1.14  
+[17] desc_1.2.0       tools_3.6.0      stringr_1.4.0    glue_1.3.1      
+[21] xfun_0.8         yaml_2.2.0       compiler_3.6.0   htmltools_0.3.6 
+[25] knitr_1.23      </code></pre>
+</div>
 </div>
 
 

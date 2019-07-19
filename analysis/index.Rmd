@@ -1,5 +1,5 @@
 ---
-title: "Home"
+title: '`r desc::desc_get_field("Title") `'
 site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
@@ -7,13 +7,3 @@ output:
 editor_options:
   chunk_output_type: console
 ---
-
-```{r libraries}
-library(ggplot2)
-```
-
-```{r}
-ggplot(data = mtcars) + 
-  aes(x = mpg, y = hp) + 
-  geom_point()
-```
