@@ -3,6 +3,8 @@
 
 [![minimal R
 version](https://img.shields.io/badge/R%3E%3D-3.6.0-6666ff.svg)](https://cran.r-project.org/)
+[![Build
+Status](https://img.shields.io/travis/timtrice/enhanced_workflowr/master.svg)](https://travis-ci.org/timtrice/enhanced_workflowr)
 [![Launch Rstudio
 Binder](http://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/timtrice/enhanced_workflowr/master?urlpath=rstudio)
 [![Launch
