@@ -9,3 +9,6 @@ analysis/*png
 analysis/*html
 analysis/*_cache
 analysis/site_libs
+enhanced_workflowr.Rcheck/
+enhanced_workflowr*.tar.gz
+enhanced_workflowr*.tgz
