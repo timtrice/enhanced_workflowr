@@ -413,10 +413,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomtimtriceenhancedworkflowrtreee18c4af638e297ca667015353803a84cc0884827targetblanke18c4afa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/timtrice/enhanced_workflowr/tree/e18c4af638e297ca667015353803a84cc0884827" target="_blank">e18c4af</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomtimtriceenhancedworkflowrtreeb515e733fe6575ae0f54658027f713803a9f7b18targetblankb515e73a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/timtrice/enhanced_workflowr/tree/b515e733fe6575ae0f54658027f713803a9f7b18" target="_blank">b515e73</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomtimtriceenhancedworkflowrtreee18c4af638e297ca667015353803a84cc0884827targetblanke18c4afa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomtimtriceenhancedworkflowrtreeb515e733fe6575ae0f54658027f713803a9f7b18targetblankb515e73a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -424,6 +424,7 @@ Great! You are using Git for version control. Tracking code development and conn
 <pre><code>
 Ignored files:
     Ignored:    .Rproj.user/
+    Ignored:    docs/figure/
 
 </code></pre>
 <p>
@@ -462,6 +463,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/timtrice/enhanced_workflowr/blob/b515e733fe6575ae0f54658027f713803a9f7b18/analysis/index.Rmd" target="_blank">b515e73</a>
+</td>
+<td>
+Tim Trice
+</td>
+<td>
+2019-07-19
+</td>
+<td>
+Add docs publishing to outline
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/timtrice/enhanced_workflowr/a7a123c1cd2f1f40333e51892ea52221bdbea645/docs/index.html" target="_blank">a7a123c</a>
+</td>
+<td>
+Tim Trice
+</td>
+<td>
+2019-07-19
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -734,6 +769,9 @@ RUN cd /home/rstudio \
   &amp;&amp; Rscript -e &#39;install.packages(c(&quot;remotes&quot;));&#39; \
   &amp;&amp; Rscript -e &#39;if (!all(c(&quot;remotes&quot;) %in% installed.packages())) { q(status = 1, save = &quot;no&quot;)};&#39; \
   &amp;&amp; Rscript -e &#39;deps &lt;- remotes::dev_package_deps(dependencies = NA);remotes::install_deps(dependencies = TRUE);if (!all(deps$package %in% installed.packages())) { message(&quot;missing: &quot;, paste(setdiff(deps$package, installed.packages()), collapse=&quot;, &quot;)); q(status = 1, save = &quot;no&quot;)}&#39;</code></pre>
+<ol start="12" style="list-style-type: decimal">
+<li>Point docs directory to GitHub pages or Netlify</li>
+</ol>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
