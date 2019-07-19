@@ -6,3 +6,20 @@ if (requireNamespace("workflowr", quietly = TRUE)) {
 } else {
   message("workflowr package not installed, please run install.packages(\"workflowr\") to use the workflowr functions")
 }
+
+options(
+  repos = c("https://mran.microsoft.com/snapshot/2019-07-01"),
+  usethis.full_name = "Tim Trice",
+  usethis.description = list(
+    Type = "Compendium",
+    Package = "enhanced_workflowr", # -- `usethis` populates from your project name
+    Title = "Enhanced Workflowr",
+    `Authors@R` = 'person(
+      given = "Tim",
+      family = "Trice",
+      email = "tim.trice@gmail.com",
+      role = c("aut", "cre")
+    )',
+    Description = "A more reproducible workflowr project."
+  )
+)
