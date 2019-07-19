@@ -8,4 +8,12 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+```{r libraries}
+library(ggplot2)
+```
+
+```{r}
+ggplot(data = mtcars) + 
+  aes(x = mpg, y = hp) + 
+  geom_point()
+```
