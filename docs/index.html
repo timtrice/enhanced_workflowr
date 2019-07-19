@@ -413,29 +413,23 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomtimtriceenhancedworkflowrtreec7adf07d7018d9fe2ddc859e83eb92bbb792400ctargetblankc7adf07a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/timtrice/enhanced_workflowr/tree/c7adf07d7018d9fe2ddc859e83eb92bbb792400c" target="_blank">c7adf07</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomtimtriceenhancedworkflowrtree0d722239a5da827f4462dc6cd159a0a3d09561a9targetblank0d72223a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/timtrice/enhanced_workflowr/tree/0d722239a5da827f4462dc6cd159a0a3d09561a9" target="_blank">0d72223</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomtimtriceenhancedworkflowrtreec7adf07d7018d9fe2ddc859e83eb92bbb792400ctargetblankc7adf07a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomtimtriceenhancedworkflowrtree0d722239a5da827f4462dc6cd159a0a3d09561a9targetblank0d72223a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
-    Ignored:    .Rhistory
     Ignored:    .Rproj.user/
 
 Untracked files:
-    Untracked:  .binder/
-    Untracked:  .travis.yml
-    Untracked:  README.Rmd
-    Untracked:  code/01_setup.R
+    Untracked:  Dockerfile
+    Untracked:  docs/assets/
 
 Unstaged changes:
-    Modified:   DESCRIPTION
-    Modified:   README.md
-    Modified:   analysis/_site.yml
     Modified:   analysis/index.Rmd
 
 </code></pre>
@@ -475,6 +469,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/timtrice/enhanced_workflowr/blob/057b3b8dda3e8ce1475521b6c80548a34dfbe8c6/analysis/index.Rmd" target="_blank">057b3b8</a>
+</td>
+<td>
+Tim Trice
+</td>
+<td>
+2019-07-19
+</td>
+<td>
+Clear index
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/timtrice/enhanced_workflowr/057b3b8dda3e8ce1475521b6c80548a34dfbe8c6/docs/index.html" target="_blank">057b3b8</a>
+</td>
+<td>
+Tim Trice
+</td>
+<td>
+2019-07-19
+</td>
+<td>
+Clear index
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -550,8 +578,133 @@ Start workflowr project.
 </div>
 </div>
 </div>
-<div id="na" class="section level2">
-<h2>NA</h2>
+<ol style="list-style-type: decimal">
+<li>Install packages</li>
+</ol>
+<pre class="r"><code>install.packages(c(&quot;remotes&quot;, &quot;usethis&quot;, &quot;workflowr&quot;))</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Update .Rprofile</li>
+</ol>
+<pre><code>options(
+  repos = c(&quot;https://mran.microsoft.com/snapshot/2019-07-01&quot;),
+  usethis.full_name = &quot;Tim Trice&quot;,
+  usethis.description = list(
+    Type = &quot;Compendium&quot;,
+    Package = &quot;enhanced_workflowr&quot;, # -- `usethis` populates from your project name
+    Title = &quot;Enhanced Workflowr&quot;,
+    `Authors@R` = &#39;person(
+      given = &quot;Tim&quot;,
+      family = &quot;Trice&quot;,
+      email = &quot;tim.trice@gmail.com&quot;,
+      role = c(&quot;aut&quot;, &quot;cre&quot;)
+    )&#39;,
+    Description = &quot;A more reproducible workflowr project.&quot;
+  )
+)</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Start workflowr project</li>
+</ol>
+<pre class="r"><code>workflowr::wflow_start(
+  directory = &quot;.&quot;, 
+  name = &quot;Enhanced Workflowr&quot;, 
+  existing = TRUE,
+  user.name = getOption(&quot;usethis.full_name&quot;), 
+  user.email = desc::desc_get_author()$email
+)</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Create DESCRIPTION</li>
+</ol>
+<pre class="r"><code>holepunch::write_compendium_description(
+  package = getOption(&quot;usethis.description&quot;)$Package,
+  description = getOption(&quot;usethis.description&quot;)$Description,
+  version = &quot;0.0.0.9000&quot;
+)</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>Add LICENSE</li>
+</ol>
+<p>See <code>?usethis::use_mit_license</code> for other license options.</p>
+<pre class="r"><code>usethis::use_mit_license()</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>Add remote repo</li>
+</ol>
+<pre><code>git remote add origin https://github.com/timtrice/enhanced_workflowr.git</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>Add repo links to DESCRIPTION</li>
+</ol>
+<pre class="r"><code>usethis::use_github_links()</code></pre>
+<ol start="7" style="list-style-type: decimal">
+<li>Create setup script</li>
+</ol>
+<pre class="r"><code>#&#39; Initiate DESCRIPTION
+holepunch::write_compendium_description(
+  package = getOption(&quot;usethis.description&quot;)$Package,
+  description = getOption(&quot;usethis.description&quot;)$Description,
+  version = &quot;0.0.0.9000&quot;
+)
+
+#&#39; Set License
+usethis::use_mit_license()
+
+#&#39; Add GitHub URL and Bug Reports
+usethis::use_github_links()
+
+#&#39; Remove `holepunch` from Imports which is added due to the above call.
+desc::desc_del_dep(&quot;holepunch&quot;)
+
+#&#39; Add Remote packages
+usethis::use_dev_package(&quot;holepunch&quot;)
+
+#&#39; Set date to same as that of MRAN repo
+holepunch::write_dockerfile(r_date = &quot;2019-07-01&quot;)</code></pre>
+<ol start="8" style="list-style-type: decimal">
+<li>holepunch &gt; write Dockerfile</li>
+</ol>
+<pre class="r"><code>holepunch::write_dockerfile(maintainer = creator, r_date = &quot;2019-07-01&quot;)</code></pre>
+<ol start="9" style="list-style-type: decimal">
+<li>Create travis script</li>
+</ol>
+<pre><code># R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+
+language: r
+cache: packages
+script:
+  - Rscript -e &#39;holepunch::build_binder()&#39;
+on:
+  all_branches: true
+  condition: $TRAVIS_BRANCH =~ ^master|develop$</code></pre>
+<ul>
+<li>Connect Travis to repo</li>
+</ul>
+<ol start="10" style="list-style-type: decimal">
+<li>Enable Docker automated building</li>
+</ol>
+<p><a href="https://cloud.docker.com/repository/create">Create Repository</a></p>
+<center>
+[<img src="./assets/docker_automated_build.png" alt="Docker automation" />]
+</center>
+<p>Click “Create”</p>
+<ol start="11" style="list-style-type: decimal">
+<li>Create Dockerfile</li>
+</ol>
+<pre><code>FROM rocker/rstudio:3.6.0
+
+ARG REPO_URL=&quot;https://github.com/timtrice/enhanced_workflowr.git&quot;
+ARG DIR=&quot;enhanced_workflowr&quot;
+
+ENV ENV_REPO_URL=$REPO_URL
+ENV ENV_DIR=$DIR
+
+RUN apt-get update \
+  &amp;&amp; apt-get -y install --no-install-recommends \
+    vim \
+  &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+RUN cd /home/rstudio \
+  &amp;&amp; git clone -v $ENV_REPO_URL \
+  &amp;&amp; cd $ENV_DIR \
+  &amp;&amp; Rscript -e &#39;install.packages(c(&quot;remotes&quot;));&#39; \
+  &amp;&amp; Rscript -e &#39;if (!all(c(&quot;remotes&quot;) %in% installed.packages())) { q(status = 1, save = &quot;no&quot;)};&#39; \
+  &amp;&amp; Rscript -e &#39;deps &lt;- remotes::dev_package_deps(dependencies = NA);remotes::install_deps(dependencies = TRUE);if (!all(deps$package %in% installed.packages())) { message(&quot;missing: &quot;, paste(setdiff(deps$package, installed.packages()), collapse=&quot;, &quot;)); q(status = 1, save = &quot;no&quot;)}&#39;</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -560,32 +713,6 @@ Start workflowr project.
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 3.6.0 (2019-04-26)
-Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 16.04.5 LTS
-
-Matrix products: default
-BLAS:   /usr/lib/atlas-base/atlas/libblas.so.3.0
-LAPACK: /usr/lib/atlas-base/atlas/liblapack.so.3.0
-
-locale:
- [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
- [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
- [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
-[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
-
-attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
-
-loaded via a namespace (and not attached):
- [1] workflowr_1.4.0  Rcpp_1.0.1       crayon_1.3.4     assertthat_0.2.1
- [5] digest_0.6.20    rprojroot_1.3-2  R6_2.4.0         backports_1.1.4 
- [9] git2r_0.26.1     magrittr_1.5     evaluate_0.14    stringi_1.4.3   
-[13] rstudioapi_0.10  fs_1.3.1         whisker_0.3-2    rmarkdown_1.14  
-[17] desc_1.2.0       tools_3.6.0      stringr_1.4.0    glue_1.3.1      
-[21] xfun_0.8         yaml_2.2.0       compiler_3.6.0   htmltools_0.3.6 
-[25] knitr_1.23      </code></pre>
-</div>
 </div>
 
 

@@ -7,3 +7,161 @@ output:
 editor_options:
   chunk_output_type: console
 ---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  eval = FALSE
+)
+```
+
+1. Install packages
+
+```{r}
+install.packages(c("remotes", "usethis", "workflowr"))
+```
+
+2. Update .Rprofile
+
+```
+options(
+  repos = c("https://mran.microsoft.com/snapshot/2019-07-01"),
+  usethis.full_name = "Tim Trice",
+  usethis.description = list(
+    Type = "Compendium",
+    Package = "enhanced_workflowr", # -- `usethis` populates from your project name
+    Title = "Enhanced Workflowr",
+    `Authors@R` = 'person(
+      given = "Tim",
+      family = "Trice",
+      email = "tim.trice@gmail.com",
+      role = c("aut", "cre")
+    )',
+    Description = "A more reproducible workflowr project."
+  )
+)
+```
+
+3. Start workflowr project
+
+```{r}
+workflowr::wflow_start(
+  directory = ".", 
+  name = "Enhanced Workflowr", 
+  existing = TRUE,
+  user.name = getOption("usethis.full_name"), 
+  user.email = desc::desc_get_author()$email
+)
+```
+
+4. Create DESCRIPTION
+
+```{r}
+holepunch::write_compendium_description(
+  package = getOption("usethis.description")$Package,
+  description = getOption("usethis.description")$Description,
+  version = "0.0.0.9000"
+)
+```
+
+5. Add LICENSE
+
+See `?usethis::use_mit_license` for other license options.
+
+```{r}
+usethis::use_mit_license()
+```
+
+5. Add remote repo
+
+```
+git remote add origin https://github.com/timtrice/enhanced_workflowr.git
+```
+
+6. Add repo links to DESCRIPTION
+
+```{r}
+usethis::use_github_links()
+```
+
+7. Create setup script
+
+```{r}
+#' Initiate DESCRIPTION
+holepunch::write_compendium_description(
+  package = getOption("usethis.description")$Package,
+  description = getOption("usethis.description")$Description,
+  version = "0.0.0.9000"
+)
+
+#' Set License
+usethis::use_mit_license()
+
+#' Add GitHub URL and Bug Reports
+usethis::use_github_links()
+
+#' Remove `holepunch` from Imports which is added due to the above call.
+desc::desc_del_dep("holepunch")
+
+#' Add Remote packages
+usethis::use_dev_package("holepunch")
+
+#' Set date to same as that of MRAN repo
+holepunch::write_dockerfile(r_date = "2019-07-01")
+```
+
+8. holepunch > write Dockerfile
+
+```{r}
+holepunch::write_dockerfile(maintainer = creator, r_date = "2019-07-01")
+```
+
+9. Create travis script
+
+```
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+
+language: r
+cache: packages
+script:
+  - Rscript -e 'holepunch::build_binder()'
+on:
+  all_branches: true
+  condition: $TRAVIS_BRANCH =~ ^master|develop$
+```
+
+  * Connect Travis to repo
+
+10. Enable Docker automated building
+
+[Create Repository](https://cloud.docker.com/repository/create)
+
+<center>[![Docker automation](./assets/docker_automated_build.png)]</center>
+
+Click "Create"
+
+11. Create Dockerfile
+
+```
+FROM rocker/rstudio:3.6.0
+
+ARG REPO_URL="https://github.com/timtrice/enhanced_workflowr.git"
+ARG DIR="enhanced_workflowr"
+
+ENV ENV_REPO_URL=$REPO_URL
+ENV ENV_DIR=$DIR
+
+RUN apt-get update \
+  && apt-get -y install --no-install-recommends \
+    libxml2-dev \
+    zlib1g-dev \
+    vim \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN cd /home/rstudio \
+  && git clone -v $ENV_REPO_URL \
+  && cd $ENV_DIR \
+  && Rscript -e 'install.packages(c("remotes"));' \
+  && Rscript -e 'if (!all(c("remotes") %in% installed.packages())) { q(status = 1, save = "no")};' \
+  && Rscript -e 'deps <- remotes::dev_package_deps(dependencies = NA);remotes::install_deps(dependencies = TRUE);if (!all(deps$package %in% installed.packages())) { message("missing: ", paste(setdiff(deps$package, installed.packages()), collapse=", ")); q(status = 1, save = "no")}'
+```
