@@ -10,9 +10,18 @@ Authors@R:
 Description: A more reproducible workflowr project.
 License: MIT + file LICENSE
 Depends: 
+    desc,
+    devtools,
+    ggplot2,
     rmarkdown,
+    roxygen2,
+    usethis,
     workflowr
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/timtrice/enhanced_workflowr
 BugReports: https://github.com/timtrice/enhanced_workflowr/issues
+Imports: 
+    holepunch (>= 0.1.19.9000)
+Remotes:  
+    karthik/holepunch
