@@ -1,0 +1,9 @@
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+
+language: r
+cache: packages
+script:
+  - Rscript -e 'holepunch::build_binder()'
+on:
+  all_branches: true
+  condition: $TRAVIS_BRANCH =~ ^master|develop$
