@@ -1,0 +1,18 @@
+Type: Compendium
+Package: enhanced_workflowr
+Title: Enhanced Workflowr
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Tim",
+           family = "Trice",
+           role = c("aut", "cre"),
+           email = "tim.trice@gmail.com")
+Description: A more reproducible workflowr project.
+License: MIT + file LICENSE
+Depends: 
+    rmarkdown,
+    workflowr
+Encoding: UTF-8
+LazyData: true
+URL: https://github.com/timtrice/enhanced_workflowr
+BugReports: https://github.com/timtrice/enhanced_workflowr/issues
