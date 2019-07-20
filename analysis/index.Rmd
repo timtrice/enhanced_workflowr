@@ -123,3 +123,15 @@ cat(readLines(here::here("./Dockerfile")), sep = "\n")
 ```
 
 11. Point docs directory to GitHub pages or Netlify
+
+12. Add CONTRIBUTING
+
+```{r}
+usethis::use_tidy_contributing()
+```
+
+13. Code of Conduct
+
+```{r}
+usethis::use_tidy_coc()
+```

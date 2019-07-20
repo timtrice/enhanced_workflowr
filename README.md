@@ -42,3 +42,15 @@ Required R packages to run this project.
 
   - [R 3.6.0](https://www.r-project.org/) - The R Project for
     Statistical Computing
+
+## Contributing
+
+Please read
+[CONTRIBUTING.md](https://github.com/timtrice/enhanced_workflowr/blob/master/.github/CONTRIBUTING.md)
+for details on our code of conduct, and the process for submitting pull
+requests to us.
+
+Please note that the ‘enhanced\_workflowr’ project is released with a
+[Contributor Code of
+Conduct](https://github.com/timtrice/enhanced_workflowr/blob/master/.github/CODE_OF_CONDUCT.md).
+By contributing to this project, you agree to abide by its terms.
