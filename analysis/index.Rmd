@@ -135,3 +135,9 @@ usethis::use_tidy_contributing()
 ```{r}
 usethis::use_tidy_coc()
 ```
+
+14. Issues Template
+
+```{r}
+usethis::use_tidy_issue_template()
+```
