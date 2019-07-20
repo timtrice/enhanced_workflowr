@@ -25,3 +25,7 @@ knitr::kable(
   caption = "Required R packages to run this project."
 )
 ```
+
+## Built With
+
+* [R `r getOption("ew.required.r")`](https://www.r-project.org/) - The R Project for Statistical Computing

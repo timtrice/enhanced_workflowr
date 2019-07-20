@@ -37,3 +37,8 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 | holepunch | \>= 0.1.19.9000 |
 
 Required R packages to run this project.
+
+## Built With
+
+  - [R 3.6.0](https://www.r-project.org/) - The R Project for
+    Statistical Computing
