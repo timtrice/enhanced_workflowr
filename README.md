@@ -43,6 +43,12 @@ Required R packages to run this project.
   - [R 3.6.0](https://www.r-project.org/) - The R Project for
     Statistical Computing
 
+## Support
+
+Please see
+[SUPPORT](https://github.com/timtrice/enhanced_workflowr/blob/master/.github/SUPPORT.md)
+if you should find any discrepancies in this project.
+
 ## Contributing
 
 Please read
@@ -66,3 +72,12 @@ repository](https://github.com/timtrice/enhanced_workflowr/tags).
 This project is licensed under the MIT License - see the
 [LICENSE](https://github.com/timtrice/enhanced_workflowr/blob/master/LICENSE.md)
 file for details
+
+## Authors
+
+  - **Tim Trice** - *Initial work* -
+    [timtrice](https://github.com/timtrice)
+
+See also the list of
+[contributors](https://github.com/timtrice/enhanced_workflowr/contributors)
+who participated in this project.
