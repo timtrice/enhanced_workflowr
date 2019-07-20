@@ -60,3 +60,9 @@ By contributing to this project, you agree to abide by its terms.
 We use [SemVer](http://semver.org/) for versioning. For the versions
 available, see the [tags on this
 repository](https://github.com/timtrice/enhanced_workflowr/tags).
+
+## License
+
+This project is licensed under the MIT License - see the
+[LICENSE](https://github.com/timtrice/enhanced_workflowr/blob/master/LICENSE.md)
+file for details
