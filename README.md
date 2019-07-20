@@ -20,3 +20,20 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 # enhanced\_workflowr (0.0.0.9000)
 
 ## Enhanced Workflowr
+
+### Prerequisites
+
+| Package   | Version         |
+| :-------- | :-------------- |
+| desc      | \*              |
+| devtools  | \*              |
+| ggplot2   | \*              |
+| here      | \*              |
+| knitr     | \*              |
+| rmarkdown | \*              |
+| roxygen2  | \*              |
+| usethis   | \*              |
+| workflowr | \*              |
+| holepunch | \>= 0.1.19.9000 |
+
+Required R packages to run this project.

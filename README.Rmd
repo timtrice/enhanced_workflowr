@@ -15,3 +15,13 @@ output: github_document
 # `r desc::desc_get_field("Package")` (`r desc::desc_get_version() `)
 
 ## `r desc::desc_get_field("Title") `
+
+### Prerequisites
+
+```{r, echo = FALSE}
+knitr::kable(
+  desc::desc_get_deps()[,2:3], 
+  col.names = c("Package", "Version"), 
+  caption = "Required R packages to run this project."
+)
+```
