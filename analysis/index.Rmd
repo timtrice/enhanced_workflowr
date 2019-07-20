@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 1. Install packages
 
-```{r}
+```{r install-packages}
 install.packages(c("remotes", "usethis", "workflowr"))
 ```
 
@@ -44,7 +44,7 @@ options(
 
 3. Start workflowr project
 
-```{r}
+```{r start-workflowr}
 workflowr::wflow_start(
   directory = ".", 
   name = "Enhanced Workflowr", 
@@ -54,22 +54,12 @@ workflowr::wflow_start(
 )
 ```
 
-4. Create DESCRIPTION
+4. Blank slate.
+
+Do not save the project workspace between sessions.
 
 ```{r}
-holepunch::write_compendium_description(
-  package = getOption("usethis.description")$Package,
-  description = getOption("usethis.description")$Description,
-  version = "0.0.0.9000"
-)
-```
-
-5. Add LICENSE
-
-See `?usethis::use_mit_license` for other license options.
-
-```{r}
-usethis::use_mit_license()
+usethis::use_blank_slate(scope = "project")
 ```
 
 5. Add remote repo
@@ -78,61 +68,47 @@ usethis::use_mit_license()
 git remote add origin https://github.com/timtrice/enhanced_workflowr.git
 ```
 
-6. Add repo links to DESCRIPTION
+6. Create **./code/01_setup.R** script
 
-```{r}
-usethis::use_github_links()
+When changes are made that introduce new packages, you can rerun the setup 
+script that will rebuild the DESCRIPTION without having to go through the steps 
+manually (or forgetting). 
+
+```{r code-setup, code = readLines(here::here("./code/01_setup.R")), eval = FALSE}
 ```
 
-7. Create setup script
+  * description - Writes compendium description. This is interactive.
+  
+  * license - Add license. See `?usethis::use_mit_license` for other options.
+  
+  * github-repo - Add repo URL and BugReports to DESCRIPTION
+  
+  * move-holepunch - `holepunch` will be listed under Depends. It is not yet 
+    available on CRAN so this will generate an error. We have to move it to 
+    Remotes and add the repo to Imports. 
+    
+  * holepunch-write-dockerfile - `holepunch` will create the Dockerfile used by 
+    [binder](https://gke.mybinder.org/). 
+    
+7. holepunch > write Dockerfile
 
-```{r}
-#' Initiate DESCRIPTION
-holepunch::write_compendium_description(
-  package = getOption("usethis.description")$Package,
-  description = getOption("usethis.description")$Description,
-  version = "0.0.0.9000"
-)
-
-#' Set License
-usethis::use_mit_license()
-
-#' Add GitHub URL and Bug Reports
-usethis::use_github_links()
-
-#' Remove `holepunch` from Imports which is added due to the above call.
-desc::desc_del_dep("holepunch")
-
-#' Add Remote packages
-usethis::use_dev_package("holepunch")
-
-#' Set date to same as that of MRAN repo
-holepunch::write_dockerfile(r_date = "2019-07-01")
-```
-
-8. holepunch > write Dockerfile
-
-```{r}
+```{r write-dockerfile}
 holepunch::write_dockerfile(maintainer = creator, r_date = "2019-07-01")
 ```
 
-9. Create travis script
+8. Travis
 
-```
-# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+  * Connect [Travis](https://travis-ci.org/dashboard) to your repository
+  
+  * Create travis script
 
-language: r
-cache: packages
-script:
-  - Rscript -e 'holepunch::build_binder()'
-on:
-  all_branches: true
-  condition: $TRAVIS_BRANCH =~ ^master|develop$
+```{r travis, comment = "", eval = TRUE}
+cat(readLines(here::here("./.travis.yml")), sep = "\n")
 ```
 
-  * Connect Travis to repo
+The script will run `holepunch::build_binder` after a successful build which should trigger a binder build in advance of use.
 
-10. Enable Docker automated building
+9. Enable Docker automated building
 
 [Create Repository](https://cloud.docker.com/repository/create)
 
@@ -140,30 +116,10 @@ on:
 
 Click "Create"
 
-11. Create Dockerfile
+10. Create Dockerfile
 
-```
-FROM rocker/rstudio:3.6.0
-
-ARG REPO_URL="https://github.com/timtrice/enhanced_workflowr.git"
-ARG DIR="enhanced_workflowr"
-
-ENV ENV_REPO_URL=$REPO_URL
-ENV ENV_DIR=$DIR
-
-RUN apt-get update \
-  && apt-get -y install --no-install-recommends \
-    libxml2-dev \
-    zlib1g-dev \
-    vim \
-  && rm -rf /var/lib/apt/lists/*
-
-RUN cd /home/rstudio \
-  && git clone -v $ENV_REPO_URL \
-  && cd $ENV_DIR \
-  && Rscript -e 'install.packages(c("remotes"));' \
-  && Rscript -e 'if (!all(c("remotes") %in% installed.packages())) { q(status = 1, save = "no")};' \
-  && Rscript -e 'deps <- remotes::dev_package_deps(dependencies = NA);remotes::install_deps(dependencies = TRUE);if (!all(deps$package %in% installed.packages())) { message("missing: ", paste(setdiff(deps$package, installed.packages()), collapse=", ")); q(status = 1, save = "no")}'
+```{r docker-hub-dockerfile, comment = "", eval = TRUE}
+cat(readLines(here::here("./Dockerfile")), sep = "\n")
 ```
 
-12. Point docs directory to GitHub pages or Netlify
+11. Point docs directory to GitHub pages or Netlify
