@@ -3,6 +3,8 @@
 
 [![minimal R
 version](https://img.shields.io/badge/R%3E%3D-3.6.0-6666ff.svg)](https://cran.r-project.org/)
+[![Netlify
+Status](https://api.netlify.com/api/v1/badges/bcc3fe43-1cd0-4d23-aca4-42f78a809855/deploy-status)](https://app.netlify.com/sites/happy-chandrasekhar-239442/deploys)
 [![Build
 Status](https://img.shields.io/travis/timtrice/enhanced_workflowr/master.svg)](https://travis-ci.org/timtrice/enhanced_workflowr)
 [![Docker Cloud Build
