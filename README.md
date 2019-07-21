@@ -27,14 +27,13 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 | :-------- | :-------------- |
 | desc      | \*              |
 | devtools  | \*              |
-| ggplot2   | \*              |
 | here      | \*              |
 | knitr     | \*              |
 | rmarkdown | \*              |
 | roxygen2  | \*              |
 | usethis   | \*              |
 | workflowr | \*              |
-| holepunch | \>= 0.1.19.9000 |
+| holepunch | \>= 0.1.18.9000 |
 
 Required R packages to run this project.
 
