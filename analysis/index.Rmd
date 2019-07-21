@@ -93,7 +93,10 @@ manually (or forgetting).
 7. holepunch > write Dockerfile
 
 ```{r write-dockerfile}
-holepunch::write_dockerfile(maintainer = creator, r_date = "2019-07-01")
+holepunch::write_dockerfile(
+  maintainer = getOption("usethis.full_name"), 
+  r_date = getOption("ew.build.date")
+)
 ```
 
 8. Travis

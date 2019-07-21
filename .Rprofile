@@ -10,6 +10,7 @@ if (requireNamespace("workflowr", quietly = TRUE)) {
 options(
   repos = c("https://mran.microsoft.com/snapshot/2019-07-01"),
   ew.required.r = "3.6.0", 
+  ew.build.date = "2019-07-01", 
   usethis.full_name = "Tim Trice",
   usethis.description = list(
     Type = "Compendium",

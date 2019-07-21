@@ -24,4 +24,4 @@ usethis::use_dev_package("holepunch")
 # ---- holepunch-write-dockerfile ----
 #' Create Dockerfile for "binder", This does not write the Dockerfile for 
 #' Docker hub (they use different images). 
-holepunch::write_dockerfile(r_date = "2019-07-01")
+holepunch::write_dockerfile(r_date = getOption("ew.build.date"))
