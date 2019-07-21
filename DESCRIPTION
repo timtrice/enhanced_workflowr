@@ -12,7 +12,6 @@ License: MIT + file LICENSE
 Depends: 
     desc,
     devtools,
-    ggplot2,
     here,
     knitr,
     rmarkdown,
@@ -24,6 +23,6 @@ LazyData: true
 URL: https://github.com/timtrice/enhanced_workflowr
 BugReports: https://github.com/timtrice/enhanced_workflowr/issues
 Imports: 
-    holepunch (>= 0.1.19.9000)
+    holepunch (>= 0.1.18.9000)
 Remotes:  
     karthik/holepunch
