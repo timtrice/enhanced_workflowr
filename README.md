@@ -75,9 +75,10 @@ file for details
 
 ## Authors
 
-  - **Tim Trice** - *Initial work* -
-    [timtrice](https://github.com/timtrice)
+  - [timtrice](https://github.com/timtrice)
 
-See also the list of
+## Acknowledgements
+
+See the list of
 [contributors](https://github.com/timtrice/enhanced_workflowr/contributors)
 who participated in this project.

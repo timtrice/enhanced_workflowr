@@ -50,6 +50,8 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 
 ## Authors
 
-  * **`r getOption("usethis.full_name")`** - *Initial work* - [timtrice](https://github.com/timtrice)
+  * [timtrice](https://github.com/timtrice)
 
-See also the list of [contributors](https://github.com/timtrice/enhanced_workflowr/contributors) who participated in this project.
+## Acknowledgements
+
+See the list of [contributors](https://github.com/timtrice/enhanced_workflowr/contributors) who participated in this project.

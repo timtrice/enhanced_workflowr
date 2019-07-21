@@ -149,3 +149,7 @@ usethis::use_tidy_support()
 ```
 
 Double-check the repo URL at line 23 in [SUPPORT](./github/SUPPORT.md). As of `usethis` release 1.5.1.9000 it currently points to the tidyverse repo. See [#166](https://github.com/r-lib/usethis/issues/166) for more info.
+
+16. Author
+
+Change author in README.

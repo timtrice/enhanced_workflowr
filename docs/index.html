@@ -302,6 +302,163 @@ div.section {
 </div>
 
 
+<ol style="list-style-type: decimal">
+<li>Install packages</li>
+</ol>
+<pre class="r"><code>install.packages(c(&quot;remotes&quot;, &quot;usethis&quot;, &quot;workflowr&quot;))</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Update .Rprofile</li>
+</ol>
+<pre><code>options(
+  repos = c(&quot;https://mran.microsoft.com/snapshot/2019-07-01&quot;),
+  usethis.full_name = &quot;Tim Trice&quot;,
+  usethis.description = list(
+    Type = &quot;Compendium&quot;,
+    Package = &quot;enhanced_workflowr&quot;, # -- `usethis` populates from your project name
+    Title = &quot;Enhanced Workflowr&quot;,
+    `Authors@R` = &#39;person(
+      given = &quot;Tim&quot;,
+      family = &quot;Trice&quot;,
+      email = &quot;tim.trice@gmail.com&quot;,
+      role = c(&quot;aut&quot;, &quot;cre&quot;)
+    )&#39;,
+    Description = &quot;A more reproducible workflowr project.&quot;
+  )
+)</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Start workflowr project</li>
+</ol>
+<pre class="r"><code>workflowr::wflow_start(
+  directory = &quot;.&quot;, 
+  name = &quot;Enhanced Workflowr&quot;, 
+  existing = TRUE,
+  user.name = getOption(&quot;usethis.full_name&quot;), 
+  user.email = desc::desc_get_author()$email
+)</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Blank slate.</li>
+</ol>
+<p>Do not save the project workspace between sessions.</p>
+<pre class="r"><code>usethis::use_blank_slate(scope = &quot;project&quot;)</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>Add remote repo</li>
+</ol>
+<pre><code>git remote add origin https://github.com/timtrice/enhanced_workflowr.git</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>Create <strong>./code/01_setup.R</strong> script</li>
+</ol>
+<p>When changes are made that introduce new packages, you can rerun the setup script that will rebuild the DESCRIPTION without having to go through the steps manually (or forgetting).</p>
+<pre class="r"><code># ---- description ----
+#&#39; Initiate DESCRIPTION
+holepunch::write_compendium_description(
+  package = getOption(&quot;usethis.description&quot;)$Package,
+  description = getOption(&quot;usethis.description&quot;)$Description,
+  version = &quot;0.0.0.9000&quot;
+)
+
+# ---- license ----
+#&#39; Set License
+usethis::use_mit_license()
+
+# ---- github-repo ----
+#&#39; Add GitHub URL and Bug Reports
+usethis::use_github_links()
+
+# ---- move-holepunch ----
+#&#39; Remove `holepunch` from Imports which is added due to the above call.
+desc::desc_del_dep(&quot;holepunch&quot;)
+
+#&#39; Add Remote packages
+usethis::use_dev_package(&quot;holepunch&quot;)
+
+# ---- holepunch-write-dockerfile ----
+#&#39; Create Dockerfile for &quot;binder&quot;, This does not write the Dockerfile for 
+#&#39; Docker hub (they use different images). 
+holepunch::write_dockerfile(r_date = &quot;2019-07-01&quot;)</code></pre>
+<ul>
+<li><p>description - Writes compendium description. This is interactive.</p></li>
+<li><p>license - Add license. See <code>?usethis::use_mit_license</code> for other options.</p></li>
+<li><p>github-repo - Add repo URL and BugReports to DESCRIPTION</p></li>
+<li><p>move-holepunch - <code>holepunch</code> will be listed under Depends. It is not yet available on CRAN so this will generate an error. We have to move it to Remotes and add the repo to Imports.</p></li>
+<li><p>holepunch-write-dockerfile - <code>holepunch</code> will create the Dockerfile used by <a href="https://gke.mybinder.org/">binder</a>.</p></li>
+</ul>
+<ol start="7" style="list-style-type: decimal">
+<li>holepunch &gt; write Dockerfile</li>
+</ol>
+<pre class="r"><code>holepunch::write_dockerfile(maintainer = creator, r_date = &quot;2019-07-01&quot;)</code></pre>
+<ol start="8" style="list-style-type: decimal">
+<li>Travis</li>
+</ol>
+<ul>
+<li><p>Connect <a href="https://travis-ci.org/dashboard">Travis</a> to your repository</p></li>
+<li><p>Create travis script</p></li>
+</ul>
+<pre class="r"><code>cat(readLines(here::here(&quot;./.travis.yml&quot;)), sep = &quot;\n&quot;)</code></pre>
+<pre><code># R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+
+language: r
+cache: packages
+script:
+  - Rscript -e &#39;holepunch::build_binder()&#39;
+on:
+  all_branches: true
+  condition: $TRAVIS_BRANCH =~ ^master|develop$</code></pre>
+<p>The script will run <code>holepunch::build_binder</code> after a successful build which should trigger a binder build in advance of use.</p>
+<ol start="9" style="list-style-type: decimal">
+<li>Enable Docker automated building</li>
+</ol>
+<p><a href="https://cloud.docker.com/repository/create">Create Repository</a></p>
+<center>
+[<img src="./assets/docker_automated_build.png" alt="Docker automation" />]
+</center>
+<p>Click “Create”</p>
+<ol start="10" style="list-style-type: decimal">
+<li>Create Dockerfile</li>
+</ol>
+<pre class="r"><code>cat(readLines(here::here(&quot;./Dockerfile&quot;)), sep = &quot;\n&quot;)</code></pre>
+<pre><code>FROM rocker/rstudio:3.6.0
+
+ARG REPO_URL=&quot;https://github.com/timtrice/enhanced_workflowr.git&quot;
+ARG DIR=&quot;enhanced_workflowr&quot;
+
+ENV ENV_REPO_URL=$REPO_URL
+ENV ENV_DIR=$DIR
+
+RUN apt-get update \
+  &amp;&amp; apt-get -y install --no-install-recommends \
+    libxml2-dev \
+    zlib1g-dev \
+    vim \
+  &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+RUN cd /home/rstudio \
+  &amp;&amp; git clone -v $ENV_REPO_URL \
+  &amp;&amp; cd $ENV_DIR \
+  &amp;&amp; Rscript -e &#39;install.packages(c(&quot;remotes&quot;));&#39; \
+  &amp;&amp; Rscript -e &#39;if (!all(c(&quot;remotes&quot;) %in% installed.packages())) { q(status = 1, save = &quot;no&quot;)};&#39; \
+  &amp;&amp; Rscript -e &#39;deps &lt;- remotes::dev_package_deps(dependencies = NA);remotes::install_deps(dependencies = TRUE);if (!all(deps$package %in% installed.packages())) { message(&quot;missing: &quot;, paste(setdiff(deps$package, installed.packages()), collapse=&quot;, &quot;)); q(status = 1, save = &quot;no&quot;)}&#39;</code></pre>
+<ol start="11" style="list-style-type: decimal">
+<li><p>Point docs directory to GitHub pages or Netlify</p></li>
+<li><p>Add CONTRIBUTING</p></li>
+</ol>
+<pre class="r"><code>usethis::use_tidy_contributing()</code></pre>
+<ol start="13" style="list-style-type: decimal">
+<li>Code of Conduct</li>
+</ol>
+<pre class="r"><code>usethis::use_tidy_coc()</code></pre>
+<ol start="14" style="list-style-type: decimal">
+<li>Issues Template</li>
+</ol>
+<pre class="r"><code>usethis::use_tidy_issue_template()</code></pre>
+<ol start="15" style="list-style-type: decimal">
+<li>Support</li>
+</ol>
+<pre class="r"><code>usethis::use_tidy_support()</code></pre>
+<p>Double-check the repo URL at line 23 in <a href="./github/SUPPORT.md">SUPPORT</a>. As of <code>usethis</code> release 1.5.1.9000 it currently points to the tidyverse repo. See <a href="https://github.com/r-lib/usethis/issues/166">#166</a> for more info.</p>
+<ol start="16" style="list-style-type: decimal">
+<li>Author</li>
+</ol>
+<p>Change author in README.</p>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
@@ -322,17 +479,17 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-07-20
+<strong>Last updated:</strong> 2019-07-21
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
-<strong>Knit directory:</strong> <code>project/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+<strong>Knit directory:</strong> <code>enhanced_workflowr/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.4.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.4.0.8000). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -413,24 +570,24 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomtimtriceenhancedworkflowrtree5eb6a1628daff5db2028138246c04aed924f0e58targetblank5eb6a16a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/timtrice/enhanced_workflowr/tree/5eb6a1628daff5db2028138246c04aed924f0e58" target="_blank">5eb6a16</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomtimtriceenhancedworkflowrtree52f3903cd7ab4cf9e52dece7e6c5ad31efee09e9targetblank52f3903a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/timtrice/enhanced_workflowr/tree/52f3903cd7ab4cf9e52dece7e6c5ad31efee09e9" target="_blank">52f3903</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomtimtriceenhancedworkflowrtree5eb6a1628daff5db2028138246c04aed924f0e58targetblank5eb6a16a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomtimtriceenhancedworkflowrtree52f3903cd7ab4cf9e52dece7e6c5ad31efee09e9targetblank52f3903a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
-    Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    docs/figure/
 
 Untracked files:
-    Untracked:  .github/SUPPORT.md
+    Untracked:  .github/CODEOWNERS
 
 Unstaged changes:
+    Modified:   README.Rmd
+    Modified:   README.md
     Modified:   analysis/index.Rmd
 
 </code></pre>
@@ -470,6 +627,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/timtrice/enhanced_workflowr/blob/52f3903cd7ab4cf9e52dece7e6c5ad31efee09e9/analysis/index.Rmd" target="_blank">52f3903</a>
+</td>
+<td>
+Tim Trice
+</td>
+<td>
+2019-07-20
+</td>
+<td>
+Add SUPPORT
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/timtrice/enhanced_workflowr/52f3903cd7ab4cf9e52dece7e6c5ad31efee09e9/docs/index.html" target="_blank">52f3903</a>
+</td>
+<td>
+Tim Trice
+</td>
+<td>
+2019-07-20
+</td>
+<td>
+Add SUPPORT
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -766,158 +957,6 @@ Start workflowr project.
 </div>
 </div>
 </div>
-<ol style="list-style-type: decimal">
-<li>Install packages</li>
-</ol>
-<pre class="r"><code>install.packages(c(&quot;remotes&quot;, &quot;usethis&quot;, &quot;workflowr&quot;))</code></pre>
-<ol start="2" style="list-style-type: decimal">
-<li>Update .Rprofile</li>
-</ol>
-<pre><code>options(
-  repos = c(&quot;https://mran.microsoft.com/snapshot/2019-07-01&quot;),
-  usethis.full_name = &quot;Tim Trice&quot;,
-  usethis.description = list(
-    Type = &quot;Compendium&quot;,
-    Package = &quot;enhanced_workflowr&quot;, # -- `usethis` populates from your project name
-    Title = &quot;Enhanced Workflowr&quot;,
-    `Authors@R` = &#39;person(
-      given = &quot;Tim&quot;,
-      family = &quot;Trice&quot;,
-      email = &quot;tim.trice@gmail.com&quot;,
-      role = c(&quot;aut&quot;, &quot;cre&quot;)
-    )&#39;,
-    Description = &quot;A more reproducible workflowr project.&quot;
-  )
-)</code></pre>
-<ol start="3" style="list-style-type: decimal">
-<li>Start workflowr project</li>
-</ol>
-<pre class="r"><code>workflowr::wflow_start(
-  directory = &quot;.&quot;, 
-  name = &quot;Enhanced Workflowr&quot;, 
-  existing = TRUE,
-  user.name = getOption(&quot;usethis.full_name&quot;), 
-  user.email = desc::desc_get_author()$email
-)</code></pre>
-<ol start="4" style="list-style-type: decimal">
-<li>Blank slate.</li>
-</ol>
-<p>Do not save the project workspace between sessions.</p>
-<pre class="r"><code>usethis::use_blank_slate(scope = &quot;project&quot;)</code></pre>
-<ol start="5" style="list-style-type: decimal">
-<li>Add remote repo</li>
-</ol>
-<pre><code>git remote add origin https://github.com/timtrice/enhanced_workflowr.git</code></pre>
-<ol start="6" style="list-style-type: decimal">
-<li>Create <strong>./code/01_setup.R</strong> script</li>
-</ol>
-<p>When changes are made that introduce new packages, you can rerun the setup script that will rebuild the DESCRIPTION without having to go through the steps manually (or forgetting).</p>
-<pre class="r"><code># ---- description ----
-#&#39; Initiate DESCRIPTION
-holepunch::write_compendium_description(
-  package = getOption(&quot;usethis.description&quot;)$Package,
-  description = getOption(&quot;usethis.description&quot;)$Description,
-  version = &quot;0.0.0.9000&quot;
-)
-
-# ---- license ----
-#&#39; Set License
-usethis::use_mit_license()
-
-# ---- github-repo ----
-#&#39; Add GitHub URL and Bug Reports
-usethis::use_github_links()
-
-# ---- move-holepunch ----
-#&#39; Remove `holepunch` from Imports which is added due to the above call.
-desc::desc_del_dep(&quot;holepunch&quot;)
-
-#&#39; Add Remote packages
-usethis::use_dev_package(&quot;holepunch&quot;)
-
-# ---- holepunch-write-dockerfile ----
-#&#39; Create Dockerfile for &quot;binder&quot;, This does not write the Dockerfile for 
-#&#39; Docker hub (they use different images). 
-holepunch::write_dockerfile(r_date = &quot;2019-07-01&quot;)</code></pre>
-<ul>
-<li><p>description - Writes compendium description. This is interactive.</p></li>
-<li><p>license - Add license. See <code>?usethis::use_mit_license</code> for other options.</p></li>
-<li><p>github-repo - Add repo URL and BugReports to DESCRIPTION</p></li>
-<li><p>move-holepunch - <code>holepunch</code> will be listed under Depends. It is not yet available on CRAN so this will generate an error. We have to move it to Remotes and add the repo to Imports.</p></li>
-<li><p>holepunch-write-dockerfile - <code>holepunch</code> will create the Dockerfile used by <a href="https://gke.mybinder.org/">binder</a>.</p></li>
-</ul>
-<ol start="7" style="list-style-type: decimal">
-<li>holepunch &gt; write Dockerfile</li>
-</ol>
-<pre class="r"><code>holepunch::write_dockerfile(maintainer = creator, r_date = &quot;2019-07-01&quot;)</code></pre>
-<ol start="8" style="list-style-type: decimal">
-<li>Travis</li>
-</ol>
-<ul>
-<li><p>Connect <a href="https://travis-ci.org/dashboard">Travis</a> to your repository</p></li>
-<li><p>Create travis script</p></li>
-</ul>
-<pre class="r"><code>cat(readLines(here::here(&quot;./.travis.yml&quot;)), sep = &quot;\n&quot;)</code></pre>
-<pre><code># R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
-
-language: r
-cache: packages
-script:
-  - Rscript -e &#39;holepunch::build_binder()&#39;
-on:
-  all_branches: true
-  condition: $TRAVIS_BRANCH =~ ^master|develop$</code></pre>
-<p>The script will run <code>holepunch::build_binder</code> after a successful build which should trigger a binder build in advance of use.</p>
-<ol start="9" style="list-style-type: decimal">
-<li>Enable Docker automated building</li>
-</ol>
-<p><a href="https://cloud.docker.com/repository/create">Create Repository</a></p>
-<center>
-[<img src="./assets/docker_automated_build.png" alt="Docker automation" />]
-</center>
-<p>Click “Create”</p>
-<ol start="10" style="list-style-type: decimal">
-<li>Create Dockerfile</li>
-</ol>
-<pre class="r"><code>cat(readLines(here::here(&quot;./Dockerfile&quot;)), sep = &quot;\n&quot;)</code></pre>
-<pre><code>FROM rocker/rstudio:3.6.0
-
-ARG REPO_URL=&quot;https://github.com/timtrice/enhanced_workflowr.git&quot;
-ARG DIR=&quot;enhanced_workflowr&quot;
-
-ENV ENV_REPO_URL=$REPO_URL
-ENV ENV_DIR=$DIR
-
-RUN apt-get update \
-  &amp;&amp; apt-get -y install --no-install-recommends \
-    libxml2-dev \
-    zlib1g-dev \
-    vim \
-  &amp;&amp; rm -rf /var/lib/apt/lists/*
-
-RUN cd /home/rstudio \
-  &amp;&amp; git clone -v $ENV_REPO_URL \
-  &amp;&amp; cd $ENV_DIR \
-  &amp;&amp; Rscript -e &#39;install.packages(c(&quot;remotes&quot;));&#39; \
-  &amp;&amp; Rscript -e &#39;if (!all(c(&quot;remotes&quot;) %in% installed.packages())) { q(status = 1, save = &quot;no&quot;)};&#39; \
-  &amp;&amp; Rscript -e &#39;deps &lt;- remotes::dev_package_deps(dependencies = NA);remotes::install_deps(dependencies = TRUE);if (!all(deps$package %in% installed.packages())) { message(&quot;missing: &quot;, paste(setdiff(deps$package, installed.packages()), collapse=&quot;, &quot;)); q(status = 1, save = &quot;no&quot;)}&#39;</code></pre>
-<ol start="11" style="list-style-type: decimal">
-<li><p>Point docs directory to GitHub pages or Netlify</p></li>
-<li><p>Add CONTRIBUTING</p></li>
-</ol>
-<pre class="r"><code>usethis::use_tidy_contributing()</code></pre>
-<ol start="13" style="list-style-type: decimal">
-<li>Code of Conduct</li>
-</ol>
-<pre class="r"><code>usethis::use_tidy_coc()</code></pre>
-<ol start="14" style="list-style-type: decimal">
-<li>Issues Template</li>
-</ol>
-<pre class="r"><code>usethis::use_tidy_issue_template()</code></pre>
-<ol start="15" style="list-style-type: decimal">
-<li>Support</li>
-</ol>
-<pre class="r"><code>usethis::use_tidy_support()</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
