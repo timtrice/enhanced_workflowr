@@ -349,7 +349,8 @@ div.section {
 </ol>
 <p>When changes are made that introduce new packages, you can rerun the setup script that will rebuild the DESCRIPTION without having to go through the steps manually (or forgetting).</p>
 <pre class="r"><code># ---- description ----
-#&#39; Initiate DESCRIPTION
+#&#39; Initiate DESCRIPTION. This effectively will rewrite the current 
+#&#39; DESCRIPTION file with just basic info.
 holepunch::write_compendium_description(
   package = getOption(&quot;usethis.description&quot;)$Package,
   description = getOption(&quot;usethis.description&quot;)$Description,
@@ -357,35 +358,31 @@ holepunch::write_compendium_description(
 )
 
 # ---- license ----
-#&#39; Set License
+#&#39; Set License. See `?usethis::use_mit_license` for other options.
 usethis::use_mit_license()
 
 # ---- github-repo ----
-#&#39; Add GitHub URL and Bug Reports
+#&#39; Add repo URL and Bug Reports to DESCRIPTION
 usethis::use_github_links()
 
 # ---- move-holepunch ----
-#&#39; Remove `holepunch` from Imports which is added due to the above call.
+#&#39; `holepunch` will be listed under Depends. It is not yet available on CRAN so 
+#&#39; this will generate an error. We have to move it to Remotes and add the repo 
+#&#39; to Remotes putting the repo under Imports.
 desc::desc_del_dep(&quot;holepunch&quot;)
-
-#&#39; Add Remote packages
 usethis::use_dev_package(&quot;holepunch&quot;)
 
 # ---- holepunch-write-dockerfile ----
-#&#39; Create Dockerfile for &quot;binder&quot;, This does not write the Dockerfile for 
-#&#39; Docker hub (they use different images). 
-holepunch::write_dockerfile(r_date = &quot;2019-07-01&quot;)</code></pre>
-<ul>
-<li><p>description - Writes compendium description. This is interactive.</p></li>
-<li><p>license - Add license. See <code>?usethis::use_mit_license</code> for other options.</p></li>
-<li><p>github-repo - Add repo URL and BugReports to DESCRIPTION</p></li>
-<li><p>move-holepunch - <code>holepunch</code> will be listed under Depends. It is not yet available on CRAN so this will generate an error. We have to move it to Remotes and add the repo to Imports.</p></li>
-<li><p>holepunch-write-dockerfile - <code>holepunch</code> will create the Dockerfile used by <a href="https://gke.mybinder.org/">binder</a>.</p></li>
-</ul>
+#&#39; Create Dockerfile for [binder](https://gke.mybinder.org/), This does not 
+#&#39; write the Dockerfile for Docker hub (they use different images). 
+holepunch::write_dockerfile(r_date = getOption(&quot;ew.build.date&quot;))</code></pre>
 <ol start="7" style="list-style-type: decimal">
 <li>holepunch &gt; write Dockerfile</li>
 </ol>
-<pre class="r"><code>holepunch::write_dockerfile(maintainer = creator, r_date = &quot;2019-07-01&quot;)</code></pre>
+<pre class="r"><code>holepunch::write_dockerfile(
+  maintainer = getOption(&quot;usethis.full_name&quot;), 
+  r_date = getOption(&quot;ew.build.date&quot;)
+)</code></pre>
 <ol start="8" style="list-style-type: decimal">
 <li>Travis</li>
 </ol>
@@ -570,10 +567,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomtimtriceenhancedworkflowrtree52f3903cd7ab4cf9e52dece7e6c5ad31efee09e9targetblank52f3903a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/timtrice/enhanced_workflowr/tree/52f3903cd7ab4cf9e52dece7e6c5ad31efee09e9" target="_blank">52f3903</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomtimtriceenhancedworkflowrtree21a52fbf7fbd85b07eba919d4b94db03db240ffetargetblank21a52fba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/timtrice/enhanced_workflowr/tree/21a52fbf7fbd85b07eba919d4b94db03db240ffe" target="_blank">21a52fb</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomtimtriceenhancedworkflowrtree52f3903cd7ab4cf9e52dece7e6c5ad31efee09e9targetblank52f3903a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomtimtriceenhancedworkflowrtree21a52fbf7fbd85b07eba919d4b94db03db240ffetargetblank21a52fba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -582,12 +579,7 @@ Great! You are using Git for version control. Tracking code development and conn
 Ignored files:
     Ignored:    .Rproj.user/
 
-Untracked files:
-    Untracked:  .github/CODEOWNERS
-
 Unstaged changes:
-    Modified:   README.Rmd
-    Modified:   README.md
     Modified:   analysis/index.Rmd
 
 </code></pre>
@@ -627,6 +619,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/timtrice/enhanced_workflowr/blob/bf6d560cdfa369ac1c5c2aa5c36bfd32c9dda30c/analysis/index.Rmd" target="_blank">bf6d560</a>
+</td>
+<td>
+Tim Trice
+</td>
+<td>
+2019-07-21
+</td>
+<td>
+Add ew.build.date option
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/timtrice/enhanced_workflowr/blob/041d60c920c3b030ce64c14b6cf612d6470fdb79/analysis/index.Rmd" target="_blank">041d60c</a>
+</td>
+<td>
+Tim Trice
+</td>
+<td>
+2019-07-21
+</td>
+<td>
+Add Authors, Acknowledgements to README
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/timtrice/enhanced_workflowr/041d60c920c3b030ce64c14b6cf612d6470fdb79/docs/index.html" target="_blank">041d60c</a>
+</td>
+<td>
+Tim Trice
+</td>
+<td>
+2019-07-21
+</td>
+<td>
+Add Authors, Acknowledgements to README
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -965,6 +1008,35 @@ Start workflowr project.
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.6.1 (2019-07-05)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Ubuntu 18.04.2 LTS
+
+Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas/libblas.so.3
+LAPACK: /usr/lib/x86_64-linux-gnu/libopenblasp-r0.2.20.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+ [1] workflowr_1.4.0.8000 Rcpp_1.0.1           here_0.1            
+ [4] crayon_1.3.4         assertthat_0.2.1     digest_0.6.20       
+ [7] rprojroot_1.3-2      R6_2.4.0             backports_1.1.4     
+[10] git2r_0.26.1         magrittr_1.5         evaluate_0.14       
+[13] stringi_1.4.3        rstudioapi_0.10      fs_1.3.1            
+[16] whisker_0.3-2        rmarkdown_1.14       desc_1.2.0          
+[19] tools_3.6.1          stringr_1.4.0        glue_1.3.1          
+[22] xfun_0.8             yaml_2.2.0           compiler_3.6.1      
+[25] htmltools_0.3.6      knitr_1.23          </code></pre>
 </div>
 
 

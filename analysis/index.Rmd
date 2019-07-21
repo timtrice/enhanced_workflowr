@@ -10,14 +10,13 @@ editor_options:
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-  echo = TRUE, 
-  eval = FALSE
+  echo = TRUE
 )
 ```
 
 1. Install packages
 
-```{r install-packages}
+```r
 install.packages(c("remotes", "usethis", "workflowr"))
 ```
 
@@ -44,7 +43,7 @@ options(
 
 3. Start workflowr project
 
-```{r start-workflowr}
+```r
 workflowr::wflow_start(
   directory = ".", 
   name = "Enhanced Workflowr", 
@@ -58,7 +57,7 @@ workflowr::wflow_start(
 
 Do not save the project workspace between sessions.
 
-```{r}
+```r
 usethis::use_blank_slate(scope = "project")
 ```
 
@@ -77,22 +76,9 @@ manually (or forgetting).
 ```{r code-setup, code = readLines(here::here("./code/01_setup.R")), eval = FALSE}
 ```
 
-  * description - Writes compendium description. This is interactive.
-  
-  * license - Add license. See `?usethis::use_mit_license` for other options.
-  
-  * github-repo - Add repo URL and BugReports to DESCRIPTION
-  
-  * move-holepunch - `holepunch` will be listed under Depends. It is not yet 
-    available on CRAN so this will generate an error. We have to move it to 
-    Remotes and add the repo to Imports. 
-    
-  * holepunch-write-dockerfile - `holepunch` will create the Dockerfile used by 
-    [binder](https://gke.mybinder.org/). 
-    
 7. holepunch > write Dockerfile
 
-```{r write-dockerfile}
+```r
 holepunch::write_dockerfile(
   maintainer = getOption("usethis.full_name"), 
   r_date = getOption("ew.build.date")
@@ -129,25 +115,25 @@ cat(readLines(here::here("./Dockerfile")), sep = "\n")
 
 12. Add CONTRIBUTING
 
-```{r}
+```r
 usethis::use_tidy_contributing()
 ```
 
 13. Code of Conduct
 
-```{r}
+```r
 usethis::use_tidy_coc()
 ```
 
 14. Issues Template
 
-```{r}
+```r
 usethis::use_tidy_issue_template()
 ```
 
 15. Support
 
-```{r}
+```r
 usethis::use_tidy_support()
 ```
 
