@@ -20,11 +20,18 @@ knitr::opts_chunk$set(
 install.packages(c("remotes", "usethis", "workflowr"))
 ```
 
-2. Update .Rprofile
+2. Update .Rprofile and restart session.
 
 ```
 options(
   repos = c("https://mran.microsoft.com/snapshot/2019-07-01"),
+  ew.required.r = "3.6.0", 
+  ew.build.date = "2019-07-01", 
+  ew.user_info = list(
+    "tim.trice@gmail.com" = list(
+      git_user_profile = "https://github.com/timtrice"
+    )
+  ), 
   usethis.full_name = "Tim Trice",
   usethis.description = list(
     Type = "Compendium",
@@ -40,6 +47,28 @@ options(
   )
 )
 ```
+
+  * **repos** - Define a repo to be used to install packages. MRAN is used by default.
+  
+  * **ew.required.r** - The R version used for the analysis. This value is printed in the README.
+  
+  * **ew.user_info** - Additional information for each Author listed under the usethis.description$Authors@R option.
+  
+    + **git_user_profile** - URL to the user's GitHub or GitLab profile
+    
+  * **usethis.full_name** - A `usethis` option used to create Licenses and other templates.
+  
+  * **usethis.description** - Additional DESCRIPTION settings used when the file is created/overwritten.
+  
+    + **Type** - For packages, this value is "Package". For our purposes, we leave it as "Compendium". See `?holepunch::write_compendium_description` for more information.
+    
+    + **Package** - The name of your project using only letters and underscore characters.
+    
+    + **Title** - The title of your package.
+    
+    + **Authors** - List each person that has contributed in some fashion to your analysis. See `?person` for additional arguments.
+    
+    + **Description** - A summary of your project.
 
 3. Start workflowr project
 
