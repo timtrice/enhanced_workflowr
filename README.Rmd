@@ -18,7 +18,7 @@ output: github_document
 
 ### Prerequisites
 
-```{r, echo = FALSE}
+```{r packages, echo = FALSE}
 knitr::kable(
   desc::desc_get_deps()[,2:3], 
   col.names = c("Package", "Version"), 
@@ -32,26 +32,38 @@ knitr::kable(
 
 ## Support
 
-Please see [SUPPORT](https://github.com/timtrice/enhanced_workflowr/blob/master/.github/SUPPORT.md) if you should find any discrepancies in this project.
+Please see [SUPPORT](`r desc::desc_get_urls()`/blob/master/.github/SUPPORT.md) if you should find any discrepancies in this project.
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://github.com/timtrice/enhanced_workflowr/blob/master/.github/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](`r desc::desc_get_urls()`/blob/master/.github/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
-Please note that the 'enhanced_workflowr' project is released with a [Contributor Code of Conduct](https://github.com/timtrice/enhanced_workflowr/blob/master/.github/CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+Please note that the '`r desc::desc_get_field("Package")`' project is released with a [Contributor Code of Conduct](`r desc::desc_get_urls()`/blob/master/.github/CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/timtrice/enhanced_workflowr/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](`r desc::desc_get_urls()`/tags). 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/timtrice/enhanced_workflowr/blob/master/LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](`r desc::desc_get_urls()`/blob/master/LICENSE.md) file for details
 
 ## Authors
 
-  * [timtrice](https://github.com/timtrice)
+```{r authors, echo = FALSE, results = "asis"}
+authors <- desc::desc_get_authors()
+for (author in authors) {
+  if ("aut" %in% author$role) {
+    cat(sprintf(
+      fmt = "* [%s, %s](%s)", 
+      author$family, 
+      author$given, 
+      getOption("ew.user_info")[[author$email]]$git_user_profile)
+    )
+  }
+}
+```
 
 ## Acknowledgements
 
-See the list of [contributors](https://github.com/timtrice/enhanced_workflowr/contributors) who participated in this project.
+See the list of [contributors](`r desc::desc_get_urls()`/contributors) who participated in this project.

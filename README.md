@@ -74,7 +74,7 @@ file for details
 
 ## Authors
 
-  - [timtrice](https://github.com/timtrice)
+  - [Trice, Tim](https://github.com/timtrice)
 
 ## Acknowledgements
 

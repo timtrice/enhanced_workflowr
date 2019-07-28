@@ -11,6 +11,11 @@ options(
   repos = c("https://mran.microsoft.com/snapshot/2019-07-01"),
   ew.required.r = "3.6.0", 
   ew.build.date = "2019-07-01", 
+  ew.user_info = list(
+    "tim.trice@gmail.com" = list(
+      git_user_profile = "https://github.com/timtrice"
+    )
+  ), 
   usethis.full_name = "Tim Trice",
   usethis.description = list(
     Type = "Compendium",
